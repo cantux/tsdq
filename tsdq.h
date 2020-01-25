@@ -4,19 +4,21 @@
 #include <semaphore.h>
 #include <pthread.h>
 
-struct typedef {
+typedef struct TsdqNode TsdqNode;
+
+struct TsdqNode {
+  void* value;
+  TsdqNode* next;
+  TsdqNode* prev;
+};
+
+typedef struct TsdqHandle {
   TsdqNode* head;
   TsdqNode* tail;
   sem_t* full;
   sem_t* empty;
   pthread_mutex_t* mutex;
 } TsdqHandle;
-
-struct typedef {
-  void* value;
-  TsdqNode* next;
-  TsdqNode* prev;
-} TsdqNode;
 
 TsdqHandle* tsdq_create(int capacity);
 void tsdq_destroy(TsdqHandle* tsdq);
